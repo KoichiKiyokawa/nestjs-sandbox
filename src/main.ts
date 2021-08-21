@@ -13,6 +13,7 @@ async function bootstrap() {
       secret: 'averylongsessionsecret',
       resave: false,
       saveUninitialized: false,
+      cookie: { httpOnly: true },
     }),
   );
   await app.listen(3000);
