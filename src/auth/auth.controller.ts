@@ -24,13 +24,13 @@ export class AuthController {
 
   @Post('logout')
   async logout(@Session() session: SessionData) {
-    session.user = null;
+    session.user = undefined;
     return { message: 'ok' };
   }
 
   @Get('me')
   @UseGuards(AuthGuard)
-  async me() {
-    return {};
+  async me(@Session() session: SessionData) {
+    return session.user;
   }
 }
