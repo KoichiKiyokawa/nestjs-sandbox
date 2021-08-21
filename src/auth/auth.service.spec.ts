@@ -1,18 +1,26 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { hashSync } from 'bcryptjs';
+import { PrismaService } from 'src/db/prisma.service';
+import { AuthRepository } from './auth.repository';
 import { AuthService } from './auth.service';
 
+class InMemoryAuthRepository extends AuthRepository {
+  async findByEmail(_email: string) {
+    return { id: '1', email: 'dummy@example.com', password: hashSync('dummy') };
+  }
+}
+
 describe('AuthService', () => {
-  let service: AuthService;
+  const authService = new AuthService(
+    new InMemoryAuthRepository(null as unknown as PrismaService),
+  );
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService],
-    }).compile();
-
-    service = module.get<AuthService>(AuthService);
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  describe('validate user', () => {
+    it('validate result is ok', async () => {
+      const user = await authService.validateUser({
+        email: 'dummy@example.com',
+        password: 'dummy',
+      });
+      expect(user).toEqual({ id: '1', email: 'dummy@example.com' });
+    });
   });
 });
