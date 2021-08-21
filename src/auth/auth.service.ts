@@ -7,7 +7,7 @@ export class AuthService {
 
   async validateUser({ email, password }: { email: string; password: string }) {
     const targetUser = await this.authRepository.findByEmail(email);
-    if (targetUser === undefined || targetUser.password !== password)
+    if (targetUser === null || targetUser.password !== password)
       throw new UnauthorizedException();
 
     return targetUser;

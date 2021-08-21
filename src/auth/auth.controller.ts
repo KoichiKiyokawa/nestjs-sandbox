@@ -24,7 +24,7 @@ export class AuthController {
 
   @Post('logout')
   async logout(@Session() session: SessionData) {
-    session.user = undefined;
+    session.user = null;
     return { message: 'ok' };
   }
 
