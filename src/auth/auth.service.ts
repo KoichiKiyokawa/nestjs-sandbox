@@ -1,4 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { compareSync } from 'bcryptjs';
 import { AuthRepository } from './auth.repository';
 
 @Injectable()
@@ -7,9 +8,11 @@ export class AuthService {
 
   async validateUser({ email, password }: { email: string; password: string }) {
     const targetUser = await this.authRepository.findByEmail(email);
-    if (targetUser === null || targetUser.password !== password)
+
+    if (targetUser === null || !compareSync(password, targetUser.password))
       throw new UnauthorizedException();
 
-    return targetUser;
+    const { password: _, ...rest } = targetUser;
+    return rest;
   }
 }
