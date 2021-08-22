@@ -2,6 +2,10 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import session from 'express-session';
+import connectRedis from 'connect-redis';
+import redis from 'redis';
+
+const RedisStore = connectRedis(session);
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -14,6 +18,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: { httpOnly: true },
+      store: new RedisStore({ client: redis.createClient() }),
     }),
   );
   await app.listen(3000);
