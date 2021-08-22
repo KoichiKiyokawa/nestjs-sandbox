@@ -95,7 +95,15 @@ describe('AuthService', () => {
     });
 
     it('パスワードを5回間違ったら、5回目のリクエストの際に「上限に達したエラー」を返す', async () => {
-      for (let i = 1; i <= 4; i++) await requestWrongPassword().catch((e) => e);
+      for (let i = 1; i <= 4; i++) {
+        try {
+          await requestWrongPassword();
+        } catch (err) {
+          // 4回目までは上限に達したエラーを返さない
+          expect(err.response.code).not.toBe('REACH_MAX_FAILED_ATTEMPTS');
+        }
+      }
+
       // 5回目
       try {
         await requestWrongPassword();
