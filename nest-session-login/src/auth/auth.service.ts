@@ -10,6 +10,11 @@ export class AuthService {
   MAX_FAILED_ATTEMPTS = 5;
   LOCK_MINUTES = 10;
 
+  // テストケースでロック時間を変更するのに使う
+  setLockMinutes(minutes: number) {
+    this.LOCK_MINUTES = minutes;
+  }
+
   async validateUser({ email, password }: { email: string; password: string }) {
     const targetUser = await this.authRepository.findByEmail(email);
 
@@ -18,27 +23,21 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    console.log(targetUser);
-
-    // ロックされている or 間違い回数の上限に達しているか
-    if (
-      this.isLoginLocked(targetUser) ||
-      targetUser.failedLoginAttempts >= this.MAX_FAILED_ATTEMPTS
-    ) {
-      console.log(this.isLoginLocked(targetUser));
-      await this.authRepository.loginLock(targetUser);
-      throw new UnauthorizedException({
-        statusCode: 401,
-        code: 'REACH_MAX_FAILED_ATTEMPTS',
-        waitMinutes: this.LOCK_MINUTES,
-      });
+    // ロックされている場合、懲りずに試してきたらロックを上書きする
+    if (this.isLoginLocked(targetUser)) {
+      await this.lockAndRespondError(targetUser);
     }
 
     // パスワードチェック
     if (!compareSync(password, targetUser.password)) {
       // パスワードが間違っていたら、試行回数をインクリメント
-      await this.authRepository.incrementFailedLoginAttempts(targetUser);
-      throw new UnauthorizedException();
+      const { failedLoginAttempts } =
+        await this.authRepository.incrementFailedLoginAttempts(targetUser);
+
+      if (failedLoginAttempts >= this.MAX_FAILED_ATTEMPTS)
+        // 上限に達したらロックする
+        await this.lockAndRespondError(targetUser);
+      else throw new UnauthorizedException();
     }
 
     // ログインに成功したら、試行回数をリセット
@@ -46,8 +45,22 @@ export class AuthService {
       await this.authRepository.resetFailedLoginAttempts(targetUser);
     }
 
-    const { password: _, ...rest } = targetUser; // パスワードはreturnしない
+    const {
+      password: _,
+      failedLoginAttempts: __,
+      loginLockedAt: ___,
+      ...rest
+    } = targetUser; // パスワードなどはreturnしない
     return rest;
+  }
+
+  private async lockAndRespondError(user: User) {
+    await this.authRepository.loginLock(user);
+    throw new UnauthorizedException({
+      statusCode: 401,
+      code: 'REACH_MAX_FAILED_ATTEMPTS',
+      waitMinutes: this.LOCK_MINUTES,
+    });
   }
 
   private isLoginLocked(user: User): boolean {
