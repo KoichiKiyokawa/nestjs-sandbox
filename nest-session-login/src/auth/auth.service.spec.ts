@@ -100,6 +100,11 @@ describe('AuthService', () => {
       try {
         await requestWrongPassword();
       } catch (err) {
+        expect(err.response).toEqual({
+          statusCode: 401,
+          code: 'REACH_MAX_FAILED_ATTEMPTS',
+          waitMinutes: TEST_LOCK_MINUTES,
+        });
         expect(InMemoryAuthRepository.data[0].loginLockedAt).toBeDefined();
       }
     });
@@ -110,6 +115,11 @@ describe('AuthService', () => {
       try {
         await requestCorrectPassword();
       } catch (err) {
+        expect(err.response).toEqual({
+          statusCode: 401,
+          code: 'REACH_MAX_FAILED_ATTEMPTS',
+          waitMinutes: TEST_LOCK_MINUTES,
+        });
         expect(InMemoryAuthRepository.data[0].loginLockedAt).toBeDefined();
       }
     });
