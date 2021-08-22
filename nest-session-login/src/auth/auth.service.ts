@@ -10,11 +10,6 @@ export class AuthService {
   MAX_FAILED_ATTEMPTS = 5;
   LOCK_MINUTES = 10;
 
-  // テストケースでロック時間を変更するのに使う
-  setLockMinutes(minutes: number) {
-    this.LOCK_MINUTES = minutes;
-  }
-
   async validateUser({ email, password }: { email: string; password: string }) {
     const targetUser = await this.authRepository.findByEmail(email);
 

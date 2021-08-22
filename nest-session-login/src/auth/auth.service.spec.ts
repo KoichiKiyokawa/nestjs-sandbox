@@ -35,8 +35,12 @@ class InMemoryAuthRepository extends AuthRepository {
   }
 }
 
+class TestAuthService extends AuthService {
+  LOCK_MINUTES = 0.05; // 0.05分 = 3秒
+}
+
 describe('AuthService', () => {
-  const authService = new AuthService(new InMemoryAuthRepository());
+  const authService = new TestAuthService(new InMemoryAuthRepository());
 
   describe('validate user', () => {
     it('validate result is ok', async () => {
@@ -67,9 +71,6 @@ describe('AuthService', () => {
   });
 
   describe('login lock', () => {
-    const TEST_LOCK_MINUTES = 0.05; // 0.05分 = 3秒
-    authService.setLockMinutes(TEST_LOCK_MINUTES);
-
     async function requestCorrectPassword() {
       return authService.validateUser({
         email: 'dummy@example.com',
@@ -86,7 +87,7 @@ describe('AuthService', () => {
 
     async function waitForLoginUnlocked() {
       await new Promise(
-        (resolve) => setTimeout(resolve, TEST_LOCK_MINUTES * 60 * 1000 + 500), // 500ミリ秒多く待つ
+        (resolve) => setTimeout(resolve, authService.LOCK_MINUTES * 60 * 1000 + 500), // 500ミリ秒多く待つ
       );
     }
 
@@ -111,7 +112,7 @@ describe('AuthService', () => {
         expect(err.response).toEqual({
           statusCode: 401,
           code: 'REACH_MAX_FAILED_ATTEMPTS',
-          waitMinutes: TEST_LOCK_MINUTES,
+          waitMinutes: authService.LOCK_MINUTES,
         });
         expect(InMemoryAuthRepository.data[0].loginLockedAt).toBeDefined();
       }
@@ -126,7 +127,7 @@ describe('AuthService', () => {
         expect(err.response).toEqual({
           statusCode: 401,
           code: 'REACH_MAX_FAILED_ATTEMPTS',
-          waitMinutes: TEST_LOCK_MINUTES,
+          waitMinutes: authService.LOCK_MINUTES,
         });
         expect(InMemoryAuthRepository.data[0].loginLockedAt).toBeDefined();
       }
