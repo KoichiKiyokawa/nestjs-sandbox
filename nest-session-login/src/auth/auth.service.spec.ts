@@ -22,15 +22,11 @@ class InMemoryAuthRepository extends AuthRepository {
   }
 
   async findByEmail(email: string) {
-    return (
-      InMemoryAuthRepository.data.find((user) => user.email === email) ?? null
-    );
+    return InMemoryAuthRepository.data.find((user) => user.email === email) ?? null;
   }
 
   async update(id: string, data: Partial<User>) {
-    const targetIndex = InMemoryAuthRepository.data.findIndex(
-      (user) => user.id === id,
-    );
+    const targetIndex = InMemoryAuthRepository.data.findIndex((user) => user.id === id);
     InMemoryAuthRepository.data[targetIndex] = {
       ...InMemoryAuthRepository.data[targetIndex],
       ...data,

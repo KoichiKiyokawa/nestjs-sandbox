@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Session,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Session, UseGuards } from '@nestjs/common';
 import { SessionData } from 'express-session';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
