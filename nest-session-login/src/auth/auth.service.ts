@@ -30,14 +30,13 @@ export class AuthService {
 
     // パスワードチェック
     if (!compareSync(password, targetUser.password)) {
-      // パスワードが間違っていたら、試行回数をインクリメント
-      const { failedLoginAttempts } =
-        await this.authRepository.incrementFailedLoginAttempts(targetUser);
-
-      if (failedLoginAttempts >= this.MAX_FAILED_ATTEMPTS)
-        // 上限に達したらロックする
+      // 上限に達したらロックする
+      if (targetUser.failedLoginAttempts + 1 >= this.MAX_FAILED_ATTEMPTS)
         await this.lockAndRespondError(targetUser);
-      else throw new UnauthorizedException();
+
+      // 上限に達しておらず、パスワードが間違っていたら、試行回数をインクリメント
+      await this.authRepository.incrementFailedLoginAttempts(targetUser);
+      throw new UnauthorizedException();
     }
 
     // ログインに成功したら、試行回数をリセット
@@ -45,12 +44,7 @@ export class AuthService {
       await this.authRepository.resetFailedLoginAttempts(targetUser);
     }
 
-    const {
-      password: _,
-      failedLoginAttempts: __,
-      loginLockedAt: ___,
-      ...rest
-    } = targetUser; // パスワードなどはreturnしない
+    const { password: _, failedLoginAttempts: __, loginLockedAt: ___, ...rest } = targetUser; // パスワードなどはreturnしない
     return rest;
   }
 
@@ -65,9 +59,6 @@ export class AuthService {
 
   private isLoginLocked(user: User): boolean {
     if (user.loginLockedAt == null) return false;
-    return (
-      user.loginLockedAt.getTime() + this.LOCK_MINUTES * 60 * 1000 >
-      new Date().getTime()
-    );
+    return user.loginLockedAt.getTime() + this.LOCK_MINUTES * 60 * 1000 > new Date().getTime();
   }
 }
