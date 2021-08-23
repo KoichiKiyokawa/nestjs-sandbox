@@ -1,0 +1,2 @@
+service: nest-no-di
+runtime: nodejs14
