@@ -638,6 +638,18 @@
     tslib "2.3.0"
     uuid "8.3.2"
 
+"@nestjs/config@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/config/-/config-1.0.1.tgz#3d794a8af7fb2cc2b1605a8a293eeae14b2d290d"
+  integrity sha512-azMl4uYlFIhYsywFxPJT81RxF3Pnn0TZW3EEmr0Wa0Wex8R2xpvBNrCcrOgW3TB1xGMP7eqBrlfsVh5ZP82szg==
+  dependencies:
+    dotenv "10.0.0"
+    dotenv-expand "5.1.0"
+    lodash.get "4.4.2"
+    lodash.has "4.5.2"
+    lodash.set "4.3.2"
+    uuid "8.3.2"
+
 "@nestjs/core@^8.0.0":
   version "8.0.6"
   resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-8.0.6.tgz#ff403a0713f9f7874e3a91ef5416fe6e96872635"
@@ -723,10 +735,10 @@
   resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-2.29.0-34.1be4cd60b89afa04b192acb1ef47758a39810f3a.tgz#96db92f09714d4dd2a5e21054c28bd1c0820fa77"
   integrity sha512-BU1DNNDhdzqjHtycpUzDrU8+jf6ZY+fbXvCV/rbqG+0JifljlIo4vbkHDMg97gBi1Do8pTLZGlTH16FlniKgAg==
 
-"@prisma/engines@2.29.0-34.1be4cd60b89afa04b192acb1ef47758a39810f3a":
-  version "2.29.0-34.1be4cd60b89afa04b192acb1ef47758a39810f3a"
-  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-2.29.0-34.1be4cd60b89afa04b192acb1ef47758a39810f3a.tgz#0a44a6dcbee7e0a2850ea086675a8a4f4d627f9d"
-  integrity sha512-cgEoGK3dmKZkMp/sRbL8TsuVS50rHXYBHk2NY18DPUGr5//4ICno46EjzlayqAFVak8J6RtWZEs+8tE8j8frAQ==
+"@prisma/engines@2.30.0-28.60b19f4a1de4fe95741da371b4c44a92f4d1adcb":
+  version "2.30.0-28.60b19f4a1de4fe95741da371b4c44a92f4d1adcb"
+  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-2.30.0-28.60b19f4a1de4fe95741da371b4c44a92f4d1adcb.tgz#b4d91ff876662b1de83e0cc913149a1c088becc7"
+  integrity sha512-LPKq88lIbYezvX0OOc1PU42hHdTsSMPJWmK8lusaHK7DaLHyXjDp/551LbsVapypbjW6N3Jx/If6GoMDASSMSw==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
@@ -2060,6 +2072,16 @@ domexception@^2.0.1:
   integrity sha512-yxJ2mFy/sibVQlu5qHjOkf9J3K6zgmCxgJ94u2EdvDOV09H+32LtRswEcUsmUWN72pVLOEnTSRaIVVzVQgS0dg==
   dependencies:
     webidl-conversions "^5.0.0"
+
+dotenv-expand@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-5.1.0.tgz#3fbaf020bfd794884072ea26b1e9791d45a629f0"
+  integrity sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==
+
+dotenv@10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+  integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -3603,10 +3625,25 @@ lodash.clonedeep@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
   integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
 
+lodash.get@4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
+  integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
+
+lodash.has@4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/lodash.has/-/lodash.has-4.5.2.tgz#d19f4dc1095058cccbe2b0cdf4ee0fe4aa37c862"
+  integrity sha1-0Z9NwQlQWMzL4rDN9O4P5Ko3yGI=
+
 lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
+
+lodash.set@4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
+  integrity sha1-2HV7HagH3eJIFrDWqEvqGnYjCyM=
 
 lodash.toarray@^4.4.0:
   version "4.4.0"
@@ -4120,12 +4157,12 @@ pretty-format@^27.0.6:
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
 
-prisma@^2.29.1:
-  version "2.29.1"
-  resolved "https://registry.yarnpkg.com/prisma/-/prisma-2.29.1.tgz#7845f55c7f09955b01f973c6a4b1f330cb212e7d"
-  integrity sha512-fRGh90+z0m3Jw3D6KBE6wyVCRR0w6M6QD93jh+em8IOQycmC48zB8hho8zeri3J9//C0k8fkDeQrRLJUosXROw==
+prisma@^2.30.0:
+  version "2.30.0"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-2.30.0.tgz#5b12091c480d538540b898d364b73651d44b4a01"
+  integrity sha512-2XYpSibcVpMd1JDxYypGDU/JKq0W2f/HI1itdddr4Pfg+q6qxt/ItWKcftv4/lqN6u/BVlQ2gDzXVEjpHeO5kQ==
   dependencies:
-    "@prisma/engines" "2.29.0-34.1be4cd60b89afa04b192acb1ef47758a39810f3a"
+    "@prisma/engines" "2.30.0-28.60b19f4a1de4fe95741da371b4c44a92f4d1adcb"
 
 process-nextick-args@~2.0.0:
   version "2.0.1"

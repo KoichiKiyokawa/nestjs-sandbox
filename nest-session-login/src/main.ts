@@ -18,7 +18,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: { httpOnly: true },
-      store: new RedisStore({ client: redis.createClient() }),
+      store: new RedisStore({ client: redis.createClient({ host: process.env.REDIS_HOST }) }),
     }),
   );
   await app.listen(3000);
