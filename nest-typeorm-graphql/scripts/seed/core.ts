@@ -1,13 +1,10 @@
-import {
-  Connection,
-  createConnection as createConnectionBase,
-  getConnectionOptions,
-} from 'typeorm';
+import { Connection, createConnection as createConnectionBase } from 'typeorm';
+import ormConfig from '../../ormconfig';
 
 let connection: Connection;
 export const createConnection = async () => {
   connection ??= await createConnectionBase({
-    ...(await getConnectionOptions()),
+    ...ormConfig,
     entities: ['src/**/*.entity.ts'],
   });
 
