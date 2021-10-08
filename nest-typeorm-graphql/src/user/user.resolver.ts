@@ -8,14 +8,14 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { Post } from 'src/post/post.entity';
-import { PostsLoader } from 'src/post/posts.loader';
+import { PostsByUserIdLoader } from 'src/post/posts.loader';
 import { CreateUserInput } from './inputs/create-user-input';
 import { UpdateUserInput } from './inputs/update-user-input';
 import { User } from './user.entity';
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private readonly postsLoader: PostsLoader) {}
+  constructor(private readonly postsLoader: PostsByUserIdLoader) {}
 
   @Query(() => [User])
   async users(

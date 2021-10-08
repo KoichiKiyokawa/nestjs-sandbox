@@ -4,7 +4,7 @@ import { In } from 'typeorm';
 import { Post } from './post.entity';
 
 @Injectable()
-export class PostsLoader extends DataLoader<string, Post[]> {
+export class PostsByUserIdLoader extends DataLoader<string, Post[]> {
   constructor() {
     super(async (userIds: readonly string[]) => {
       const posts = await Post.find({

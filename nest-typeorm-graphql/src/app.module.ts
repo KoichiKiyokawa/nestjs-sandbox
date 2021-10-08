@@ -1,25 +1,17 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserResolver } from './user/user.resolver';
-import { PostResolver } from './post/post.resolver';
-import { PostsLoader } from './post/posts.loader';
-import { UserLoader } from './user/user.loader';
-
-import { CommentByPostIdLoader } from './comment/comments.loader';
+import { UserModule } from './user/user.module';
+import { PostModule } from './post/post.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
     GraphQLModule.forRoot({ autoSchemaFile: 'schema.gql' }),
     TypeOrmModule.forRoot(),
-  ],
-  controllers: [],
-  providers: [
-    UserResolver,
-    UserLoader,
-    PostResolver,
-    PostsLoader,
-    CommentByPostIdLoader,
+    UserModule,
+    PostModule,
+    CommentModule,
   ],
 })
 export class AppModule {}
