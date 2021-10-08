@@ -1,15 +1,16 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Context, Query, Resolver } from '@nestjs/graphql';
 import { IContext } from 'src/app.type';
+import { CurrentUserId } from 'src/user/user.decorator';
 import { User } from 'src/user/user.entity';
-import { AuthGuard } from './auth.guard';
+import { LoginGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Query(() => Boolean)
+  @Query(() => User)
   async login(
     @Args('email') email: string,
     @Args('password') password: string,
@@ -18,7 +19,7 @@ export class AuthResolver {
     const user = await this.authService.validateAuth(email, password);
 
     ctx.req.session.userId = user.id;
-    return true;
+    return user;
   }
 
   @Query(() => Boolean)
@@ -28,7 +29,7 @@ export class AuthResolver {
   }
 
   @Query(() => User)
-  @UseGuards(AuthGuard)
+  @UseGuards(LoginGuard)
   async me(@Context() ctx: IContext) {
     return User.findOne(ctx.req.session.userId);
   }

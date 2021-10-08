@@ -32,7 +32,7 @@ type Query {
   users(limit: Int): [User!]!
   post(id: String!): Post!
   posts(limit: Int): [Post!]!
-  login(password: String!, email: String!): Boolean!
+  login(password: String!, email: String!): User!
   logout: Boolean!
   me: User!
 }
@@ -41,6 +41,13 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   deleteUser(id: String!): User!
+  createComment(
+    """コメントの文章"""
+    text: String!
+
+    """どの投稿にコメントをつけるか"""
+    postId: String!
+  ): Comment!
 }
 
 input CreateUserInput {
