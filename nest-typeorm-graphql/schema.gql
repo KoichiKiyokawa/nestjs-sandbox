@@ -33,6 +33,8 @@ type Query {
   post(id: String!): Post!
   posts(limit: Int): [Post!]!
   login(password: String!, email: String!): Boolean!
+  logout: Boolean!
+  me: User!
 }
 
 type Mutation {
