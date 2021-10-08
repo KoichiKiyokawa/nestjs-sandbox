@@ -1,4 +1,11 @@
-import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Int,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { User } from 'src/user/user.entity';
 import { UserLoader } from 'src/user/user.loader';
 import { Post } from './post.entity';
@@ -13,7 +20,9 @@ export class PostResolver {
   }
 
   @Query(() => [Post])
-  async posts(@Args('limit', { nullable: true }) limit?: number) {
+  async posts(
+    @Args('limit', { type: () => Int, nullable: true }) limit?: number,
+  ) {
     return Post.find({ ...(limit && { take: limit }) });
   }
 

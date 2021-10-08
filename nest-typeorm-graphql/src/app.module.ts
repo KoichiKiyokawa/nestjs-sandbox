@@ -8,7 +8,7 @@ import { UserLoader } from './user/user.loader';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot({ autoSchemaFile: true }),
+    GraphQLModule.forRoot({ autoSchemaFile: 'schema.gql' }),
     TypeOrmModule.forRoot(),
   ],
   controllers: [],
