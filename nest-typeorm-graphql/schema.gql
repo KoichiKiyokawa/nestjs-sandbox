@@ -2,11 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type Post {
   id: String!
-  name: String!
-  birthday: String!
-  posts: [Post!]!
+  title: String!
+  body: String!
+  user: User!
   comments: [Comment!]!
 }
 
@@ -19,11 +19,12 @@ type Comment {
   postId: String!
 }
 
-type Post {
+type User {
   id: String!
-  title: String!
-  body: String!
-  user: User!
+  name: String!
+  email: String!
+  birthday: String!
+  posts: [Post!]!
   comments: [Comment!]!
 }
 
@@ -31,6 +32,7 @@ type Query {
   users(limit: Int): [User!]!
   post(id: String!): Post!
   posts(limit: Int): [Post!]!
+  login(password: String!, email: String!): Boolean!
 }
 
 type Mutation {

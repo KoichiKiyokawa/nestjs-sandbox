@@ -1,5 +1,4 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Comment } from '../comment/comment.entity';
 import {
   BaseEntity,
   Column,
@@ -7,6 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Comment } from '../comment/comment.entity';
 import { Post } from '../post/post.entity';
 
 @Entity()
