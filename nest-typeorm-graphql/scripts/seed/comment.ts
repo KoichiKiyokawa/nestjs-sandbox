@@ -2,7 +2,7 @@ import { Comment } from '../../src/comment/comment.entity';
 import { Post } from '../../src/post/post.entity';
 import { createConnection } from './core';
 
-(async () => {
+export async function commentSeed() {
   const connection = await createConnection();
 
   const posts = await Post.find();
@@ -23,4 +23,4 @@ import { createConnection } from './core';
         .execute(),
     ),
   );
-})();
+}

@@ -2,9 +2,10 @@ default:
   type: postgres
   entities:
     - dist/**/*.entity.js
-  synchronize: true
   username: postgres
   password: postgres
   migrations:
-    - dist/migrations/*.js
+    - migrations/**/*.ts
   logging: true
+  cli:
+    migrationsDir: migrations
