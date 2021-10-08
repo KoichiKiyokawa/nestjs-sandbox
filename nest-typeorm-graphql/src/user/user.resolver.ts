@@ -10,15 +10,25 @@ import {
 } from '@nestjs/graphql';
 import { LoginGuard } from 'src/auth/auth.guard';
 import { Post } from 'src/post/post.entity';
-import { PostsByUserIdLoader } from 'src/post/posts.loader';
+import {
+  LikedPostsByUserIdLoader,
+  PostsByUserIdLoader,
+} from 'src/post/posts.loader';
 import { CreateUserInput } from './inputs/create-user-input';
 import { UpdateUserInput } from './inputs/update-user-input';
 import { User } from './user.entity';
 
 @Resolver(() => User)
-@UseGuards(LoginGuard)
 export class UserResolver {
-  constructor(private readonly postsLoader: PostsByUserIdLoader) {}
+  constructor(
+    private readonly postsLoader: PostsByUserIdLoader,
+    private readonly likedPostLoader: LikedPostsByUserIdLoader,
+  ) {}
+
+  @Query(() => User)
+  async user(@Args('id') id: string) {
+    return User.findOne(id);
+  }
 
   @Query(() => [User])
   async users(
@@ -28,8 +38,13 @@ export class UserResolver {
   }
 
   @ResolveField(() => [Post])
-  async posts(@Parent() parent: User) {
-    return this.postsLoader.load(parent.id);
+  async posts(@Parent() user: User) {
+    return this.postsLoader.load(user.id);
+  }
+
+  @ResolveField(() => [Post])
+  async likedPosts(@Parent() user: User) {
+    return this.likedPostLoader.load(user.id);
   }
 
   @Mutation(() => User)
@@ -38,6 +53,7 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
+  @UseGuards(LoginGuard)
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     const { id, ...data } = updateUserInput;
     await User.update(id, data);

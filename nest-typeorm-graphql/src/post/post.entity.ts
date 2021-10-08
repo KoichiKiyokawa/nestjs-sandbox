@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -38,6 +39,10 @@ export class Post extends BaseEntity {
   user!: User;
   @Column()
   userId!: string;
+
+  @ManyToMany(() => User, (user) => user.likedPosts)
+  @Field(() => [User])
+  likedUsers!: User[];
 
   @OneToMany(() => Comment, (comment) => comment.post)
   @Field(() => [Comment])

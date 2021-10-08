@@ -7,6 +7,7 @@ type Post {
   title: String!
   body: String!
   user: User!
+  likedUsers: [User!]!
   comments: [Comment!]!
 }
 
@@ -25,10 +26,12 @@ type User {
   email: String!
   birthday: String!
   posts: [Post!]!
+  likedPosts: [Post!]!
   comments: [Comment!]!
 }
 
 type Query {
+  user(id: String!): User!
   users(limit: Int): [User!]!
   post(id: String!): Post!
   posts(limit: Int): [Post!]!
@@ -41,6 +44,9 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   deleteUser(id: String!): User!
+
+  """投稿にいいねをつける"""
+  likePost(postId: String!): Boolean!
   createComment(
     """コメントの文章"""
     text: String!
