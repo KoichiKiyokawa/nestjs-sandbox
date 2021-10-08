@@ -1,0 +1,5 @@
+services:
+  db:
+    image: postgres:13.3-alpine3.14
+    environment:
+      POSTGRES_PASSWORD: postgres
