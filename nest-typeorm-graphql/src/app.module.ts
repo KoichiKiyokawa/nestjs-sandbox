@@ -6,12 +6,20 @@ import { PostResolver } from './post/post.resolver';
 import { PostsLoader } from './post/posts.loader';
 import { UserLoader } from './user/user.loader';
 
+import { CommentByPostIdLoader } from './comment/comments.loader';
+
 @Module({
   imports: [
     GraphQLModule.forRoot({ autoSchemaFile: 'schema.gql' }),
     TypeOrmModule.forRoot(),
   ],
   controllers: [],
-  providers: [UserResolver, UserLoader, PostResolver, PostsLoader],
+  providers: [
+    UserResolver,
+    UserLoader,
+    PostResolver,
+    PostsLoader,
+    CommentByPostIdLoader,
+  ],
 })
 export class AppModule {}

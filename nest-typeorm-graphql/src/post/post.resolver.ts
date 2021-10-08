@@ -6,13 +6,17 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { CommentByPostIdLoader } from 'src/comment/comments.loader';
 import { User } from 'src/user/user.entity';
 import { UserLoader } from 'src/user/user.loader';
 import { Post } from './post.entity';
 
 @Resolver(() => Post)
 export class PostResolver {
-  constructor(private readonly userLoader: UserLoader) {}
+  constructor(
+    private readonly userLoader: UserLoader,
+    private readonly commentByPostIdLoader: CommentByPostIdLoader,
+  ) {}
 
   @Query(() => Post)
   async post(@Args('id') id: string) {
@@ -29,5 +33,10 @@ export class PostResolver {
   @ResolveField(() => User)
   async user(@Parent() post: Post) {
     return this.userLoader.load(post.userId);
+  }
+
+  @ResolveField(() => [Comment])
+  async comments(@Parent() post: Post) {
+    return this.commentByPostIdLoader.load(post.id);
   }
 }

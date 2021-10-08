@@ -1,10 +1,12 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { Comment } from '../comment/comment.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -34,7 +36,10 @@ export class Post extends BaseEntity {
   @ManyToOne(() => User, (user) => user.posts)
   @Field(() => User)
   user!: User;
-
   @Column()
   userId!: string;
+
+  @OneToMany(() => Comment, (comment) => comment.post)
+  @Field(() => [Comment])
+  comments!: Comment[];
 }

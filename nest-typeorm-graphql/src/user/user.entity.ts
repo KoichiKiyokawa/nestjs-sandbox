@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Post } from '../post/post.entity';
+import { Comment } from '../comment/comment.entity';
 import {
   BaseEntity,
   Column,
@@ -7,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Post } from '../post/post.entity';
 
 @Entity()
 @ObjectType()
@@ -26,4 +27,8 @@ export class User extends BaseEntity {
   @OneToMany(() => Post, (post) => post.user)
   @Field(() => [Post])
   posts!: Post[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  @Field(() => [Comment])
+  comments!: Comment[];
 }

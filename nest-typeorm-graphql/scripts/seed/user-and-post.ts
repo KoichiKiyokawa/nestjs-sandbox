@@ -1,12 +1,9 @@
-import { createConnection, getConnectionOptions } from 'typeorm';
-import { Post } from '../src/post/post.entity';
-import { User } from '../src/user/user.entity';
+import { createConnection } from './core';
+import { Post } from '../../src/post/post.entity';
+import { User } from '../../src/user/user.entity';
 
 (async () => {
-  await createConnection({
-    ...(await getConnectionOptions()),
-    entities: ['src/**/*.entity.ts'],
-  });
+  await createConnection();
 
   for (let u = 0; u < 100; u++) {
     const user = User.create({
